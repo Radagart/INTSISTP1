@@ -1,0 +1,302 @@
+openapi: 3.1.0
+info:
+  title: Course Info API
+  version: 0.1.0
+paths:
+  /courses:
+    get:
+      tags:
+      - courses
+      summary: Get Courses
+      operationId: get_courses_courses_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Course'
+                type: array
+                title: Response Get Courses Courses Get
+  /courses/{course_id}:
+    get:
+      tags:
+      - courses
+      summary: Get Course
+      operationId: get_course_courses__course_id__get
+      parameters:
+      - name: course_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Course Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - courses
+      summary: Put Course
+      operationId: put_course_courses__course_id__put
+      parameters:
+      - name: course_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Course Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseUpdate'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - courses
+      summary: Delete Course
+      operationId: delete_course_courses__course_id__delete
+      parameters:
+      - name: course_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Course Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /courses/{course_id}/notes:
+    post:
+      tags:
+      - courses
+      summary: Add Notes
+      operationId: add_notes_courses__course_id__notes_post
+      parameters:
+      - name: course_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Course Id
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              title: Notes
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /courses/:
+    post:
+      tags:
+      - courses
+      summary: Post Course
+      operationId: post_course_courses__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /authors:
+    get:
+      tags:
+      - authors
+      summary: Get Authors
+      operationId: get_authors_authors_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Author'
+                type: array
+                title: Response Get Authors Authors Get
+  /authors/{handle}:
+    get:
+      tags:
+      - authors
+      summary: Get Author
+      operationId: get_author_authors__handle__get
+      parameters:
+      - name: handle
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Handle
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Author:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        firstName:
+          type: string
+          title: Firstname
+        lastName:
+          type: string
+          title: Lastname
+        handle:
+          type: string
+          title: Handle
+      additionalProperties: false
+      type: object
+      required:
+      - firstName
+      - lastName
+      - handle
+      title: Author
+    Course:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        length:
+          type: integer
+          title: Length
+        url:
+          type: string
+          title: Url
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - name
+      - length
+      - url
+      title: Course
+    CourseUpdate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        length:
+          type: integer
+          title: Length
+        url:
+          type: string
+          title: Url
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - length
+      - url
+      title: CourseUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

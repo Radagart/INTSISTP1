@@ -1,0 +1,9 @@
+*.pyc
+.idea
+.vscode
+bin/
+.env
+.venv
+__pycache__/
+*.db
+.pytest_cache/
