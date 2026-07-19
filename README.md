@@ -181,3 +181,14 @@ FastAPI. Devuelve:
   `PUT`, `DELETE`); los `GET` permanecen públicos, siguiendo un criterio
 
   habitual en APIs REST (lectura abierta, escritura autenticada).
+
+  ## Evidencias de funcionamiento
+
+En la carpeta `evidencias/` se incluyen capturas de pantalla que muestran:
+
+- Documentación Swagger con los endpoints de Courses, Authors y Grades.
+- Pruebas del CRUD de Grades (creación, lectura, actualización, borrado).
+- Registro de usuario y obtención de token JWT mediante login.
+- Verificación de que los endpoints de escritura requieren autenticación
+  (401 sin token, 204 con token válido).
+- Ejecución de la suite de tests automáticos (`pytest`).
